@@ -25,22 +25,17 @@ jobs:
           distribution: 'temurin' # See 'Supported distributions' for available
           java-version: '11'   
 
-      # Setup sonar-scanner
-      - name: Setup SonarQube
-        uses: warchant/setup-sonar-scanner@v7
+      - name: Analyze with SonarCloud
+        run: ./mvnw -B verify sonar:sonar 
+          -Dsonar.projectKey=vpro1-project_vproapp 
+          -Dsonar.organization=vpro1-project 
+          -Dsonar.host.url=https://sonarcloud.io 
+          -Dsonar.login=$SONAR_TOKEN
 
-      # Run sonar scanner  
-      - name: SonarQube scan
-        run: sonar-scanner
-           -Dsonar.host.url=${{ secrets.SONAR_URL}}
-           -Dsonar.login=${{ secrets.SONAR_TOKEN }}   
-           -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-           -Dsonar.sources=src/
-           -Dsonar.junit.reportsPath=target/surefire-reports/
-           -Dsonar.jacoco.reportsPath=target/jacoco.exec
-           -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
-           -Dsonar.java.binaries=target/test-classes/com/holadmex/account
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
       # check the quality Gate status
       - name: SonarQube Quality gate check
