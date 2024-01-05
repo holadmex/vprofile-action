@@ -76,18 +76,17 @@ jobs:
     needs: BUILD_AND_PUBLISH
     runs-on: ubuntu-latest
     steps:
-
+      
       - name: Code checkout
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-         access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}      
-         secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         region: ${{ env.AWS_REGION }}
-
-        
+         aws-access-key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}      
+         aws-secret-access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         aws-region: ${{ env.AWS_REGION }}
+ 
       - name: Get kube config file
         run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
 
@@ -100,9 +99,9 @@ jobs:
       - name: Deploy Helm
         uses: bitovi/github-actions-deploy-eks-helm@v1.2.8
         with:
-         access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}      
-         secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         region: ${{ env.AWS_REGION }}
+         aws-access-key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}      
+         aws-secret-access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         aws-region: ${{ env.AWS_REGION }}
          cluster-name: ${{ env.EKS_CLUSTER }}  
          #config-files: .github/values/dev.yaml
          chart-path: helm/vprofilecharts
