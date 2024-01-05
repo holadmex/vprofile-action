@@ -73,7 +73,7 @@ jobs:
          context: ./
   
       - name: Get kube config file
-        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name= gitops-eks
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
 
       - name: Print config file  
         run: cat ~/.kube/config
@@ -87,7 +87,7 @@ jobs:
          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}      
          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
          region: ${{ env.AWS_REGION }}
-         cluster-name: gitops-eks 
+         cluster-name: ${{ env.EKS_CLUSTER }}  
          #config-files: .github/values/dev.yaml
          chart-path: helm/vprofilecharts
          namespace: default
