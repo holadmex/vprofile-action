@@ -74,7 +74,7 @@ jobs:
 
   DEPLOY_TO_EKS:
     needs: BUILD_AND_PUBLISH
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     steps:
 
       - name: Code checkout
