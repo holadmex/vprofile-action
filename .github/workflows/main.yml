@@ -71,4 +71,25 @@ jobs:
          daemon_off: false
          dockerfile: ./Dockerfile
          context: ./
+  
+      - name: Get kube config file
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_ClUSTER }}
 
+      - name: Print config file  
+        run: cat ~/.kube/config
+
+      - name: Login to ECR
+        run: kubectl create secret docker-registry regcred --docker-server=${{ secrets.REGISTRY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password)
+        
+      - name: Deploy Helm
+        uses: bitovi/github-actions-deploy-eks-helm@v1.2.8
+        with:
+         access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}      
+         secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         region: ${{ env.AWS_REGION }}
+         cluster-name: ${{ env.EKS_CLUSTER }}  
+         #config-files: .github/values/dev.yaml
+         chart-path: helm/vprofilecharts
+         namespace: default
+         values: appimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY}},apptag=${{ github.run_number }}
+         name: vprofile-stack
