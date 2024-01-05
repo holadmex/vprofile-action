@@ -49,7 +49,7 @@ jobs:
         # Force to fail step after specific time.
         timeout-minutes: 5
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKENS }}
           SONAR_HOST_URL: ${{ secrets.SONAR_URL }} #optional
 
 ##
