@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: emart.holadmexbob.online
+  - host: vprofile.holadmexbob.online
     http:
       paths:
       - path: /
