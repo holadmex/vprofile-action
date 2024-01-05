@@ -73,7 +73,7 @@ jobs:
          context: ./
   
       - name: Get kube config file
-        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_ClUSTER }}
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name=gitops-eks
 
       - name: Print config file  
         run: cat ~/.kube/config
